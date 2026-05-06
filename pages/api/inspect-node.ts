@@ -1,0 +1,10 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  res.status(200).json({
+    url: req.url,
+    method: req.method,
+    headers: req.headers,
+    rawHeaders: req.rawHeaders,
+  })
+}
