@@ -18,13 +18,17 @@ export default async function InspectCachePage() {
   const cache = (globalThis as typeof globalThis & {
     __incrementalCache?: CacheShape
   }).__incrementalCache
+  const cacheHandler = cache?.cacheHandler
 
   const body = JSON.stringify(
     {
       cached,
       hasIncrementalCache: Boolean(cache),
-      cacheEndpoint: cache?.cacheHandler?.cacheEndpoint ?? null,
-      headers: cache?.cacheHandler?.headers ?? null,
+      cacheKeys: cache ? Object.keys(cache as object).sort() : [],
+      cacheHandlerType: cacheHandler?.constructor?.name ?? null,
+      cacheHandlerKeys: cacheHandler ? Object.keys(cacheHandler as object).sort() : [],
+      cacheEndpoint: cacheHandler?.cacheEndpoint ?? null,
+      headers: cacheHandler?.headers ?? null,
     },
     null,
     2
