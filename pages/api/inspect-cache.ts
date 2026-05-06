@@ -1,6 +1,15 @@
-export default function handler(_req, res) {
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+export default function handler(_req: NextApiRequest, res: NextApiResponse) {
   try {
-    const cache = globalThis.__incrementalCache
+    const cache = (globalThis as typeof globalThis & {
+      __incrementalCache?: {
+        cacheHandler?: {
+          cacheEndpoint?: string | null
+          headers?: Record<string, string> | null
+        }
+      }
+    }).__incrementalCache
     const cacheHandler = cache?.cacheHandler
 
     res.status(200).json({
