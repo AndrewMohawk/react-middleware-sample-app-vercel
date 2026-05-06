@@ -1,3 +1,5 @@
+import { unstable_cache } from 'next/cache'
+
 type CacheShape = {
   cacheHandler?: {
     cacheEndpoint?: string | null
@@ -5,13 +7,11 @@ type CacheShape = {
   }
 }
 
-async function getCachedValue() {
-  'use cache'
-
+const getCachedValue = unstable_cache(async () => {
   return {
     value: 'cache-probe',
   }
-}
+}, ['inspect-cache'])
 
 export default async function InspectCachePage() {
   const cached = await getCachedValue()
